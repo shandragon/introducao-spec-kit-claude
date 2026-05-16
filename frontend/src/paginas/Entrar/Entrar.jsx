@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { usarAutenticacao } from '../../contextos/ContextoAutenticacao.jsx';
 import * as autenticacaoServico from '../../servicos/autenticacao.js';
 
@@ -10,6 +10,8 @@ export function Entrar() {
   const [enviando, setEnviando] = useState(false);
   const { entrar } = usarAutenticacao();
   const navegar = useNavigate();
+  const { state } = useLocation();
+  const mensagemSucesso = state?.mensagem || '';
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -64,6 +66,7 @@ export function Entrar() {
             />
           </div>
 
+          {mensagemSucesso && <p className="pagina-autenticacao__mensagem-sucesso">{mensagemSucesso}</p>}
           {erro && <p className="mensagem-erro">{erro}</p>}
 
           <button

@@ -1,53 +1,3 @@
-/* ─── App shell ─────────────────────────────────────────── */
-
-.pagina-principal {
-  min-height: 100vh;
-  background: var(--cor-fundo-suave);
-}
-
-/* ─── Topbar (full-width, fixa no topo) ─────────────────── */
-
-.pagina-principal__topbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--cor-fundo);
-  border-bottom: 1px solid var(--cor-borda);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-}
-
-.pagina-principal__topbar-conteudo {
-  max-width: var(--largura-pagina);
-  margin: 0 auto;
-  padding: 14px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.pagina-principal__titulo {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--cor-texto);
-}
-
-.pagina-principal__usuario {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: var(--fonte-base);
-  color: var(--cor-texto-secundario);
-}
-
-/* ─── Container de conteúdo ─────────────────────────────── */
-
-.pagina-principal__container {
-  max-width: var(--largura-pagina);
-  margin: 0 auto;
-  padding: 32px 24px;
-}
-
 /* ─── Barra de navegação (abas + nova tarefa) ───────────── */
 
 .pagina-principal__navegacao {
@@ -88,16 +38,6 @@
 
 .pagina-principal__botao-nova-tarefa {
   margin-left: auto;
-}
-
-/* ─── Área de conteúdo principal (lista / calendário / árvore) ── */
-
-.pagina-principal__area-conteudo {
-  background: var(--cor-fundo);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-medio);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  padding: 24px;
 }
 
 /* ─── Painel do formulário ──────────────────────────────── */

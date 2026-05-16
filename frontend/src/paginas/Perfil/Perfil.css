@@ -1,0 +1,37 @@
+.perfil__secao {
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 28px 24px;
+}
+
+.perfil__secao + .perfil__secao {
+  margin-top: 24px;
+}
+
+.perfil__titulo-secao {
+  margin: 0 0 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+
+.perfil__formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 440px;
+}
+
+.perfil__formulario-acoes {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.perfil__mensagem-sucesso {
+  color: var(--cor-sucesso);
+  margin: 0;
+  font-size: var(--fonte-base);
+}

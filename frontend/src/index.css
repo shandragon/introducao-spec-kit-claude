@@ -196,6 +196,27 @@ button {
   font-size: var(--fonte-base);
 }
 
+/* ─── App shell — compartilhado entre páginas autenticadas ─ */
+
+.pagina-principal {
+  min-height: 100vh;
+  background: var(--cor-fundo-suave);
+}
+
+.pagina-principal__container {
+  max-width: var(--largura-pagina);
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.pagina-principal__area-conteudo {
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 24px;
+}
+
 /* ─── Páginas de autenticação (Entrar e Registrar) ──────── */
 
 .pagina-autenticacao {
@@ -273,6 +294,16 @@ button {
   border: none;
   border-top: 1px solid var(--cor-borda);
   margin: 4px 0;
+}
+
+.pagina-autenticacao__mensagem-sucesso {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--raio-pequeno);
+  color: #166534;
+  font-size: var(--fonte-base);
+  margin: 0;
+  padding: 10px 12px;
 }
 
 .pagina-autenticacao__rodape {

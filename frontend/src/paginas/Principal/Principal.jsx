@@ -5,6 +5,7 @@ import { ListaTarefas } from '../../componentes/Tarefa/ListaTarefas.jsx';
 import { FormularioTarefa } from '../../componentes/Tarefa/FormularioTarefa.jsx';
 import { Calendario } from '../../componentes/Calendario/Calendario.jsx';
 import { Arvore } from '../../componentes/Arvore/Arvore.jsx';
+import { Cabecalho } from '../../componentes/Cabecalho/Cabecalho.jsx';
 import './Principal.css';
 
 const ABAS = [
@@ -67,15 +68,7 @@ export function Principal() {
 
   return (
     <div className="pagina-principal">
-      <header className="pagina-principal__topbar">
-        <div className="pagina-principal__topbar-conteudo">
-          <h1 className="pagina-principal__titulo">Organizador de Tarefas</h1>
-          <div className="pagina-principal__usuario">
-            <span>Olá, {usuario?.nome}</span>
-            <button onClick={sair} className="botao botao--neutro">Sair</button>
-          </div>
-        </div>
-      </header>
+      <Cabecalho usuario={usuario} aoSair={sair} />
 
       <main className="pagina-principal__container">
         <nav className="pagina-principal__navegacao">

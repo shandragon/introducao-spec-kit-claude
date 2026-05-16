@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import rotasAutenticacao from './rotas/autenticacao.js';
 import rotasTarefas from './rotas/tarefas.js';
+import rotasPerfil from './rotas/perfil.js';
 import rotaSaude from './rotas/saude.js';
 import { tratarErros } from './middleware/tratarErros.js';
 
@@ -12,6 +13,7 @@ aplicacao.use(express.json());
 
 aplicacao.use('/api/autenticacao', rotasAutenticacao);
 aplicacao.use('/api/tarefas', rotasTarefas);
+aplicacao.use('/api/perfil', rotasPerfil);
 aplicacao.use('/api', rotaSaude);
 
 aplicacao.use(tratarErros);

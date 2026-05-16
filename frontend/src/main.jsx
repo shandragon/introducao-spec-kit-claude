@@ -6,6 +6,7 @@ import { RotaProtegida } from './componentes/RotaProtegida/RotaProtegida.jsx';
 import { Entrar } from './paginas/Entrar/Entrar.jsx';
 import { Registrar } from './paginas/Registrar/Registrar.jsx';
 import { Principal } from './paginas/Principal/Principal.jsx';
+import { Perfil } from './paginas/Perfil/Perfil.jsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -20,6 +21,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             element={
               <RotaProtegida>
                 <Principal />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="/perfil"
+            element={
+              <RotaProtegida>
+                <Perfil />
               </RotaProtegida>
             }
           />
