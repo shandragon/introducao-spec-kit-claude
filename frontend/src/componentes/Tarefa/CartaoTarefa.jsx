@@ -34,7 +34,7 @@ export function CartaoTarefa({ tarefa, aoEditar, aoExcluir }) {
         </p>
         {tarefa.data && (
           <p style={{ margin: '4px 0 0', fontSize: 13, color: '#6b7280' }}>
-            {new Date(tarefa.data).toLocaleDateString('pt-BR')}
+            {tarefa.data.slice(0, 10).split('-').reverse().join('/')}
             {tarefa.horarioInicio && (
               <span> · {tarefa.horarioInicio}
                 {tarefa.duracaoFormatada && ` (${tarefa.duracaoFormatada})`}

@@ -19,7 +19,7 @@ function calcularHorarioFimLocal(horarioInicio, duracao) {
 export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasDisponiveis = [] }) {
   const [titulo, setTitulo] = useState(tarefaInicial?.titulo || '');
   const [data, setData] = useState(
-    tarefaInicial?.data ? new Date(tarefaInicial.data).toISOString().slice(0, 10) : ''
+    tarefaInicial?.data ? tarefaInicial.data.slice(0, 10) : ''
   );
   const [status, setStatus] = useState(tarefaInicial?.status || 'PENDENTE');
   const [paiId, setPaiId] = useState(tarefaInicial?.paiId || '');
@@ -33,7 +33,7 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
   useEffect(() => {
     if (tarefaInicial) {
       setTitulo(tarefaInicial.titulo || '');
-      setData(tarefaInicial.data ? new Date(tarefaInicial.data).toISOString().slice(0, 10) : '');
+      setData(tarefaInicial.data ? tarefaInicial.data.slice(0, 10) : '');
       setStatus(tarefaInicial.status || 'PENDENTE');
       setPaiId(tarefaInicial.paiId || '');
       setHorarioInicio(tarefaInicial.horarioInicio || '');

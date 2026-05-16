@@ -16,8 +16,14 @@ const CORES_STATUS = {
   CONCLUIDA: '#9ca3af',
 };
 
+// Cria Date na meia-noite LOCAL, evitando o desvio de fuso UTC → dia anterior
+function parsearDataLocal(dataStr) {
+  const [ano, mes, dia] = dataStr.slice(0, 10).split('-').map(Number);
+  return new Date(ano, mes - 1, dia);
+}
+
 function tarefaParaEvento(tarefa) {
-  const base = tarefa.data ? new Date(tarefa.data) : new Date();
+  const base = tarefa.data ? parsearDataLocal(tarefa.data) : new Date();
 
   if (tarefa.horarioInicio) {
     const [h, m] = tarefa.horarioInicio.split(':').map(Number);
