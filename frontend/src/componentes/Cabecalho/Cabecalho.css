@@ -31,6 +31,14 @@
   color: var(--cor-texto-secundario);
 }
 
+.cabecalho__link-home {
+  text-decoration: none;
+}
+
+.cabecalho__link-home:hover .pagina-principal__titulo {
+  color: var(--cor-primaria);
+}
+
 .cabecalho__nome-usuario {
   color: var(--cor-texto-secundario);
   text-decoration: none;

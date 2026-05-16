@@ -5,7 +5,9 @@ export function Cabecalho({ usuario, aoSair }) {
   return (
     <header className="pagina-principal__topbar">
       <div className="pagina-principal__topbar-conteudo">
-        <h1 className="pagina-principal__titulo">Organizador de Tarefas</h1>
+        <Link to="/" className="cabecalho__link-home">
+          <h1 className="pagina-principal__titulo">Organizador de Tarefas</h1>
+        </Link>
         <div className="pagina-principal__usuario">
           <Link to="/perfil" className="cabecalho__nome-usuario">
             Olá, {usuario?.nome}
