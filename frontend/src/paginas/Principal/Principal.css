@@ -1,0 +1,137 @@
+/* ─── App shell ─────────────────────────────────────────── */
+
+.pagina-principal {
+  min-height: 100vh;
+  background: var(--cor-fundo-suave);
+}
+
+/* ─── Topbar (full-width, fixa no topo) ─────────────────── */
+
+.pagina-principal__topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--cor-fundo);
+  border-bottom: 1px solid var(--cor-borda);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pagina-principal__topbar-conteudo {
+  max-width: var(--largura-pagina);
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pagina-principal__titulo {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--cor-texto);
+}
+
+.pagina-principal__usuario {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--fonte-base);
+  color: var(--cor-texto-secundario);
+}
+
+/* ─── Container de conteúdo ─────────────────────────────── */
+
+.pagina-principal__container {
+  max-width: var(--largura-pagina);
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* ─── Barra de navegação (abas + nova tarefa) ───────────── */
+
+.pagina-principal__navegacao {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.aba {
+  padding: 9px 18px;
+  background: var(--cor-fundo);
+  color: var(--cor-texto-medio);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pequeno);
+  cursor: pointer;
+  font-size: var(--fonte-base);
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.aba:hover:not(.aba--ativa) {
+  background: var(--cor-fundo-inativo);
+  border-color: var(--cor-borda-input);
+}
+
+.aba--ativa {
+  background: var(--cor-primaria);
+  color: var(--cor-primaria-texto);
+  border-color: var(--cor-primaria);
+  font-weight: 600;
+}
+
+.aba--ativa:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.pagina-principal__botao-nova-tarefa {
+  margin-left: auto;
+}
+
+/* ─── Área de conteúdo principal (lista / calendário / árvore) ── */
+
+.pagina-principal__area-conteudo {
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 24px;
+}
+
+/* ─── Painel do formulário ──────────────────────────────── */
+
+.pagina-principal__formulario {
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.pagina-principal__formulario-titulo {
+  margin: 0 0 20px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ─── Painel de confirmação de exclusão ─────────────────── */
+
+.pagina-principal__confirmacao-exclusao {
+  background: var(--cor-perigo-fundo);
+  border: 1px solid var(--cor-perigo-borda);
+  border-radius: var(--raio-medio);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.pagina-principal__confirmacao-exclusao p {
+  margin: 0 0 16px;
+}
+
+.pagina-principal__confirmacao-acoes {
+  display: flex;
+  gap: 8px;
+}

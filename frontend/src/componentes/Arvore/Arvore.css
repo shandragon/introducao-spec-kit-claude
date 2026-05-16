@@ -1,0 +1,30 @@
+.arvore__descricao {
+  font-size: var(--fonte-base);
+  color: var(--cor-texto-secundario);
+  margin-bottom: 16px;
+}
+
+.node-arvore__linha {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.node-arvore__toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--fonte-normal);
+  padding: 12px 0;
+  flex-shrink: 0;
+}
+
+.node-arvore__espacador {
+  display: inline-block;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.node-arvore__conteudo {
+  flex: 1;
+}

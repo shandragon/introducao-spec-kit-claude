@@ -5,6 +5,7 @@ import { ListaTarefas } from '../../componentes/Tarefa/ListaTarefas.jsx';
 import { FormularioTarefa } from '../../componentes/Tarefa/FormularioTarefa.jsx';
 import { Calendario } from '../../componentes/Calendario/Calendario.jsx';
 import { Arvore } from '../../componentes/Arvore/Arvore.jsx';
+import './Principal.css';
 
 const ABAS = [
   { id: 'lista', rotulo: 'Lista' },
@@ -65,95 +66,96 @@ export function Principal() {
   }
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', padding: 24 }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <h1 style={{ margin: 0 }}>Organizador de Tarefas</h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <span>Olá, {usuario?.nome}</span>
-          <button onClick={sair}>Sair</button>
+    <div className="pagina-principal">
+      <header className="pagina-principal__topbar">
+        <div className="pagina-principal__topbar-conteudo">
+          <h1 className="pagina-principal__titulo">Organizador de Tarefas</h1>
+          <div className="pagina-principal__usuario">
+            <span>Olá, {usuario?.nome}</span>
+            <button onClick={sair} className="botao botao--neutro">Sair</button>
+          </div>
         </div>
       </header>
 
-      <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
-        {ABAS.map((aba) => (
-          <button
-            key={aba.id}
-            onClick={() => setAbaAtiva(aba.id)}
-            style={{
-              padding: '8px 16px',
-              background: abaAtiva === aba.id ? '#3b82f6' : '#f3f4f6',
-              color: abaAtiva === aba.id ? '#fff' : '#374151',
-              border: 'none',
-              borderRadius: 6,
-              cursor: 'pointer',
-            }}
-          >
-            {aba.rotulo}
-          </button>
-        ))}
-        <button
-          onClick={() => abrirCriacao()}
-          style={{ marginLeft: 'auto', padding: '8px 16px', background: '#10b981', color: '#fff', border: 'none', borderRadius: 6, cursor: 'pointer' }}
-        >
-          + Nova Tarefa
-        </button>
-      </div>
-
-      {mostrarFormulario && (
-        <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 8, padding: 24, marginBottom: 24 }}>
-          <h2 style={{ margin: '0 0 16px' }}>{tarefaEditando ? 'Editar Tarefa' : 'Nova Tarefa'}</h2>
-          <FormularioTarefa
-            tarefaInicial={tarefaEditando || (dataInicial ? { data: dataInicial } : null)}
-            aoSalvar={handleSalvar}
-            aoCancelar={() => { setMostrarFormulario(false); setTarefaEditando(null); }}
-            tarefasDisponiveis={tarefas}
-          />
-        </div>
-      )}
-
-      {confirmarExclusao && (
-        <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: 24, marginBottom: 24 }}>
-          <p>
-            A tarefa <strong>"{confirmarExclusao.titulo}"</strong> possui{' '}
-            {confirmarExclusao.quantidadeFilhas} subtarefa(s). Deseja excluir tudo?
-          </p>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={confirmarExclusaoComFilhas} style={{ background: '#dc2626', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: 6, cursor: 'pointer' }}>
-              Excluir tudo
+      <main className="pagina-principal__container">
+        <nav className="pagina-principal__navegacao">
+          {ABAS.map((aba) => (
+            <button
+              key={aba.id}
+              onClick={() => setAbaAtiva(aba.id)}
+              className={`aba${abaAtiva === aba.id ? ' aba--ativa' : ''}`}
+            >
+              {aba.rotulo}
             </button>
-            <button onClick={() => setConfirmarExclusao(null)}>Cancelar</button>
+          ))}
+          <button
+            onClick={() => abrirCriacao()}
+            className="botao botao--sucesso pagina-principal__botao-nova-tarefa"
+          >
+            + Nova Tarefa
+          </button>
+        </nav>
+
+        {mostrarFormulario && (
+          <div className="pagina-principal__formulario">
+            <h2 className="pagina-principal__formulario-titulo">
+              {tarefaEditando ? 'Editar Tarefa' : 'Nova Tarefa'}
+            </h2>
+            <FormularioTarefa
+              tarefaInicial={tarefaEditando || (dataInicial ? { data: dataInicial } : null)}
+              aoSalvar={handleSalvar}
+              aoCancelar={() => { setMostrarFormulario(false); setTarefaEditando(null); }}
+              tarefasDisponiveis={tarefas}
+            />
           </div>
+        )}
+
+        {confirmarExclusao && (
+          <div className="pagina-principal__confirmacao-exclusao">
+            <p>
+              A tarefa <strong>"{confirmarExclusao.titulo}"</strong> possui{' '}
+              {confirmarExclusao.quantidadeFilhas} subtarefa(s). Deseja excluir tudo?
+            </p>
+            <div className="pagina-principal__confirmacao-acoes">
+              <button onClick={confirmarExclusaoComFilhas} className="botao botao--perigo">
+                Excluir tudo
+              </button>
+              <button onClick={() => setConfirmarExclusao(null)} className="botao botao--neutro">Cancelar</button>
+            </div>
+          </div>
+        )}
+
+        <div className="pagina-principal__area-conteudo">
+          {abaAtiva === 'lista' && (
+            <ListaTarefas
+              tarefas={tarefas}
+              aoEditar={abrirEdicao}
+              aoExcluir={handleExcluir}
+              carregando={carregando}
+              erro={erro}
+            />
+          )}
+
+          {abaAtiva === 'calendario' && (
+            <Calendario
+              tarefas={tarefas}
+              aoMoverTarefa={moverParaData}
+              aoCriarNaData={abrirCriacao}
+              aoEditar={abrirEdicao}
+              aoRecarregar={carregar}
+            />
+          )}
+
+          {abaAtiva === 'arvore' && (
+            <Arvore
+              tarefas={tarefas.filter((t) => !t.paiId)}
+              todasTarefas={tarefas}
+              aoEditar={abrirEdicao}
+              aoExcluir={handleExcluir}
+            />
+          )}
         </div>
-      )}
-
-      {abaAtiva === 'lista' && (
-        <ListaTarefas
-          tarefas={tarefas}
-          aoEditar={abrirEdicao}
-          aoExcluir={handleExcluir}
-          carregando={carregando}
-          erro={erro}
-        />
-      )}
-
-      {abaAtiva === 'calendario' && (
-        <Calendario
-          tarefas={tarefas}
-          aoMoverTarefa={moverParaData}
-          aoCriarNaData={abrirCriacao}
-          aoEditar={abrirEdicao}
-          aoRecarregar={carregar}
-        />
-      )}
-
-      {abaAtiva === 'arvore' && (
-        <Arvore
-          tarefas={tarefas.filter((t) => !t.paiId)}
-          todasTarefas={tarefas}
-          aoEditar={abrirEdicao}
-          aoExcluir={handleExcluir}
-        />
-      )}
+      </main>
     </div>
   );
 }

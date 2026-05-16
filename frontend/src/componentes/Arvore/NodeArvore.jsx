@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CartaoTarefa } from '../Tarefa/CartaoTarefa.jsx';
+import './Arvore.css';
 
 export function NodeArvore({ tarefa, todasTarefas, aoEditar, aoExcluir, nivel = 0 }) {
   const [expandido, setExpandido] = useState(true);
@@ -16,26 +17,19 @@ export function NodeArvore({ tarefa, todasTarefas, aoEditar, aoExcluir, nivel = 
 
   return (
     <div style={{ marginLeft: nivel * 24 }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+      <div className="node-arvore__linha">
         {temFilhas ? (
           <button
             onClick={() => setExpandido((e) => !e)}
             aria-label={expandido ? 'Colapsar' : 'Expandir'}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: 16,
-              padding: '12px 0',
-              flexShrink: 0,
-            }}
+            className="node-arvore__toggle"
           >
             {expandido ? '▼' : '▶'}
           </button>
         ) : (
-          <span style={{ width: 24, flexShrink: 0 }} />
+          <span className="node-arvore__espacador" />
         )}
-        <div style={{ flex: 1 }}>
+        <div className="node-arvore__conteudo">
           <CartaoTarefa
             tarefa={{ ...tarefa, quantidadeFilhas: filhas.length, progressoFilhas }}
             aoEditar={aoEditar}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import './FormularioTarefa.css';
 
 const STATUS_OPCOES = [
   { valor: 'PENDENTE', rotulo: 'Pendente' },
@@ -65,19 +66,10 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
     }
   }
 
-  const estiloInput = {
-    width: '100%',
-    padding: '8px 12px',
-    border: '1px solid #d1d5db',
-    borderRadius: 6,
-    fontSize: 14,
-    boxSizing: 'border-box',
-  };
-
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <form onSubmit={handleSubmit} className="formulario-tarefa">
       <div>
-        <label htmlFor="titulo" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
+        <label htmlFor="titulo" className="rotulo">
           Título *
         </label>
         <input
@@ -86,13 +78,13 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
           value={titulo}
           onChange={(e) => setTitulo(e.target.value)}
           placeholder="Título da tarefa"
-          style={estiloInput}
+          className="campo"
           required
         />
       </div>
 
       <div>
-        <label htmlFor="data" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
+        <label htmlFor="data" className="rotulo">
           Data
         </label>
         <input
@@ -100,19 +92,19 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
           type="date"
           value={data}
           onChange={(e) => setData(e.target.value)}
-          style={estiloInput}
+          className="campo"
         />
       </div>
 
       <div>
-        <label htmlFor="status" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
+        <label htmlFor="status" className="rotulo">
           Status
         </label>
         <select
           id="status"
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          style={estiloInput}
+          className="campo"
         >
           {STATUS_OPCOES.map((op) => (
             <option key={op.valor} value={op.valor}>{op.rotulo}</option>
@@ -120,9 +112,9 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
         </select>
       </div>
 
-      <div style={{ display: 'flex', gap: 12 }}>
-        <div style={{ flex: 1 }}>
-          <label htmlFor="horarioInicio" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
+      <div className="formulario-tarefa__linha">
+        <div>
+          <label htmlFor="horarioInicio" className="rotulo">
             Horário de início
           </label>
           <input
@@ -130,11 +122,11 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
             type="time"
             value={horarioInicio}
             onChange={(e) => setHorarioInicio(e.target.value)}
-            style={estiloInput}
+            className="campo"
           />
         </div>
-        <div style={{ flex: 1 }}>
-          <label htmlFor="duracao" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
+        <div>
+          <label htmlFor="duracao" className="rotulo">
             Duração (min)
           </label>
           <input
@@ -144,27 +136,27 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
             value={duracao}
             onChange={(e) => setDuracao(e.target.value)}
             placeholder="Ex.: 90"
-            style={estiloInput}
+            className="campo"
           />
         </div>
       </div>
 
       {horarioFim && (
-        <p style={{ margin: 0, fontSize: 13, color: '#6b7280' }}>
+        <p className="formulario-tarefa__horario-fim">
           Término: <strong>{horarioFim}</strong>
         </p>
       )}
 
       {tarefasDisponiveis.length > 0 && (
         <div>
-          <label htmlFor="pai" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
+          <label htmlFor="pai" className="rotulo">
             Tarefa pai (opcional)
           </label>
           <select
             id="pai"
             value={paiId}
             onChange={(e) => setPaiId(e.target.value)}
-            style={estiloInput}
+            className="campo"
           >
             <option value="">Nenhuma</option>
             {tarefasDisponiveis
@@ -176,13 +168,13 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
         </div>
       )}
 
-      {erro && <p style={{ color: '#dc2626', margin: 0, fontSize: 14 }}>{erro}</p>}
+      {erro && <p className="mensagem-erro">{erro}</p>}
 
-      <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-        <button type="button" onClick={aoCancelar} disabled={enviando}>
+      <div className="formulario-tarefa__acoes">
+        <button type="button" onClick={aoCancelar} disabled={enviando} className="botao botao--neutro">
           Cancelar
         </button>
-        <button type="submit" disabled={enviando}>
+        <button type="submit" disabled={enviando} className="botao botao--primario">
           {enviando ? 'Salvando...' : 'Salvar'}
         </button>
       </div>

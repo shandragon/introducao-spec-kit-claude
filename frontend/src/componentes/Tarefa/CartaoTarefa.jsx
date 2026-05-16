@@ -1,39 +1,24 @@
-const CORES_STATUS = {
-  PENDENTE: { fundo: '#fef3c7', texto: '#92400e', rotulo: 'Pendente' },
-  EM_PLANEJAMENTO: { fundo: '#dbeafe', texto: '#1e40af', rotulo: 'Em Planejamento' },
-  EM_EXECUCAO: { fundo: '#dcfce7', texto: '#166534', rotulo: 'Em Execução' },
-  CONCLUIDA: { fundo: '#f3f4f6', texto: '#6b7280', rotulo: 'Concluída' },
+import './CartaoTarefa.css';
+
+const ROTULOS_STATUS = {
+  PENDENTE: 'Pendente',
+  EM_PLANEJAMENTO: 'Em Planejamento',
+  EM_EXECUCAO: 'Em Execução',
+  CONCLUIDA: 'Concluída',
 };
 
 export function CartaoTarefa({ tarefa, aoEditar, aoExcluir }) {
-  const estiloStatus = CORES_STATUS[tarefa.status] || CORES_STATUS.PENDENTE;
+  const rotulo = ROTULOS_STATUS[tarefa.status] || ROTULOS_STATUS.PENDENTE;
+  const tituloConcluida = tarefa.status === 'CONCLUIDA' ? ' cartao-tarefa__titulo--concluida' : '';
 
   return (
-    <div
-      style={{
-        border: '1px solid #e5e7eb',
-        borderRadius: 8,
-        padding: '12px 16px',
-        marginBottom: 8,
-        background: '#fff',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-      }}
-    >
-      <div style={{ flex: 1 }}>
-        <p
-          style={{
-            margin: 0,
-            fontWeight: 600,
-            textDecoration: tarefa.status === 'CONCLUIDA' ? 'line-through' : 'none',
-            opacity: tarefa.status === 'CONCLUIDA' ? 0.6 : 1,
-          }}
-        >
+    <div className="cartao-tarefa">
+      <div className="cartao-tarefa__conteudo">
+        <p className={`cartao-tarefa__titulo${tituloConcluida}`}>
           {tarefa.titulo}
         </p>
         {tarefa.data && (
-          <p style={{ margin: '4px 0 0', fontSize: 13, color: '#6b7280' }}>
+          <p className="cartao-tarefa__meta">
             {tarefa.data.slice(0, 10).split('-').reverse().join('/')}
             {tarefa.horarioInicio && (
               <span> · {tarefa.horarioInicio}
@@ -42,30 +27,20 @@ export function CartaoTarefa({ tarefa, aoEditar, aoExcluir }) {
             )}
           </p>
         )}
-        <span
-          style={{
-            display: 'inline-block',
-            marginTop: 6,
-            padding: '2px 8px',
-            borderRadius: 12,
-            fontSize: 12,
-            background: estiloStatus.fundo,
-            color: estiloStatus.texto,
-          }}
-        >
-          {estiloStatus.rotulo}
+        <span className={`cartao-tarefa__badge cartao-tarefa__badge--${tarefa.status}`}>
+          {rotulo}
         </span>
         {tarefa.quantidadeFilhas > 0 && (
-          <span style={{ marginLeft: 8, fontSize: 12, color: '#6b7280' }}>
+          <span className="cartao-tarefa__subtarefas">
             {tarefa.progressoFilhas?.concluidas}/{tarefa.quantidadeFilhas} subtarefas
           </span>
         )}
       </div>
-      <div style={{ display: 'flex', gap: 8 }}>
-        <button onClick={() => aoEditar(tarefa)} aria-label="Editar tarefa">
+      <div className="cartao-tarefa__acoes">
+        <button onClick={() => aoEditar(tarefa)} aria-label="Editar tarefa" className="botao-icone">
           ✏️
         </button>
-        <button onClick={() => aoExcluir(tarefa)} aria-label="Excluir tarefa">
+        <button onClick={() => aoExcluir(tarefa)} aria-label="Excluir tarefa" className="botao-icone">
           🗑️
         </button>
       </div>

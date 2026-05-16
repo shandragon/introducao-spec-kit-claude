@@ -28,51 +28,74 @@ export function Registrar() {
   }
 
   return (
-    <div style={{ maxWidth: 400, margin: '80px auto', padding: '0 16px' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>Criar Conta</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <div>
-          <label htmlFor="nome">Nome</label>
-          <input
-            id="nome"
-            type="text"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            required
-            style={{ display: 'block', width: '100%', padding: '8px 12px', marginTop: 4, boxSizing: 'border-box' }}
-          />
+    <div className="pagina-autenticacao">
+      <div className="pagina-autenticacao__cartao">
+        <div className="pagina-autenticacao__cabecalho">
+          <div className="pagina-autenticacao__marca">OT</div>
+          <h1 className="pagina-autenticacao__titulo">Criar conta</h1>
+          <p className="pagina-autenticacao__subtitulo">
+            Preencha os dados para começar a organizar suas tarefas
+          </p>
         </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{ display: 'block', width: '100%', padding: '8px 12px', marginTop: 4, boxSizing: 'border-box' }}
-          />
-        </div>
-        <div>
-          <label htmlFor="senha">Senha (mínimo 8 caracteres)</label>
-          <input
-            id="senha"
-            type="password"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            minLength={8}
-            required
-            style={{ display: 'block', width: '100%', padding: '8px 12px', marginTop: 4, boxSizing: 'border-box' }}
-          />
-        </div>
-        {erro && <p style={{ color: '#dc2626', margin: 0 }}>{erro}</p>}
-        <button type="submit" disabled={enviando}>
-          {enviando ? 'Criando conta...' : 'Registrar'}
-        </button>
-        <p style={{ textAlign: 'center' }}>
-          Já tem conta? <Link to="/entrar">Entrar</Link>
-        </p>
-      </form>
+
+        <form onSubmit={handleSubmit} className="pagina-autenticacao__formulario">
+          <div className="pagina-autenticacao__campo-grupo">
+            <label htmlFor="nome" className="rotulo">Nome</label>
+            <input
+              id="nome"
+              type="text"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              placeholder="Seu nome completo"
+              required
+              className="campo"
+            />
+          </div>
+
+          <div className="pagina-autenticacao__campo-grupo">
+            <label htmlFor="email" className="rotulo">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="seu@email.com"
+              required
+              className="campo"
+            />
+          </div>
+
+          <div className="pagina-autenticacao__campo-grupo">
+            <label htmlFor="senha" className="rotulo">Senha</label>
+            <input
+              id="senha"
+              type="password"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              placeholder="Mínimo 8 caracteres"
+              minLength={8}
+              required
+              className="campo"
+            />
+          </div>
+
+          {erro && <p className="mensagem-erro">{erro}</p>}
+
+          <button
+            type="submit"
+            disabled={enviando}
+            className="botao botao--primario pagina-autenticacao__botao-submit"
+          >
+            {enviando ? 'Criando conta...' : 'Criar conta'}
+          </button>
+
+          <hr className="pagina-autenticacao__divisor" />
+
+          <p className="pagina-autenticacao__rodape">
+            Já tem conta? <Link to="/entrar">Fazer login</Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }

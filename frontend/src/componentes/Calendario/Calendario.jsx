@@ -4,17 +4,11 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
+import './Calendario.css';
 
 moment.locale('pt-br');
 const localizador = momentLocalizer(moment);
 const CalendarioArrastarSoltar = withDragAndDrop(Calendar);
-
-const CORES_STATUS = {
-  PENDENTE: '#fbbf24',
-  EM_PLANEJAMENTO: '#60a5fa',
-  EM_EXECUCAO: '#34d399',
-  CONCLUIDA: '#9ca3af',
-};
 
 // Cria Date na meia-noite LOCAL, evitando o desvio de fuso UTC → dia anterior
 function parsearDataLocal(dataStr) {
@@ -45,24 +39,14 @@ function tarefaParaEvento(tarefa) {
 
 function EstiloEvento({ event }) {
   const tarefa = event.resource;
-  const cor = CORES_STATUS[tarefa.status] || CORES_STATUS.PENDENTE;
   return (
     <div
-      style={{
-        background: cor,
-        opacity: tarefa.status === 'CONCLUIDA' ? 0.5 : 1,
-        textDecoration: tarefa.status === 'CONCLUIDA' ? 'line-through' : 'none',
-        color: '#111',
-        padding: '1px 4px',
-        borderRadius: 3,
-        fontSize: 12,
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis',
-      }}
+      className={`evento-calendario evento-calendario--${tarefa.status || 'PENDENTE'}`}
       title={tarefa.titulo}
     >
-      {tarefa.horarioInicio && <span style={{ marginRight: 4 }}>{tarefa.horarioInicio}</span>}
+      {tarefa.horarioInicio && (
+        <span className="evento-calendario__horario">{tarefa.horarioInicio}</span>
+      )}
       {tarefa.titulo}
     </div>
   );
@@ -98,7 +82,7 @@ export function Calendario({ tarefas, aoMoverTarefa, aoCriarNaData, aoEditar }) 
   );
 
   return (
-    <div style={{ height: 600 }}>
+    <div className="calendario-container">
       <CalendarioArrastarSoltar
         localizer={localizador}
         events={eventos}

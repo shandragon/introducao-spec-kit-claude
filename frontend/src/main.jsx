@@ -6,6 +6,7 @@ import { RotaProtegida } from './componentes/RotaProtegida/RotaProtegida.jsx';
 import { Entrar } from './paginas/Entrar/Entrar.jsx';
 import { Registrar } from './paginas/Registrar/Registrar.jsx';
 import { Principal } from './paginas/Principal/Principal.jsx';
+import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

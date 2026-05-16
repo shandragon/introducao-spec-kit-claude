@@ -1,9 +1,10 @@
 import { NodeArvore } from './NodeArvore.jsx';
+import './Arvore.css';
 
 export function Arvore({ tarefas, todasTarefas, aoEditar, aoExcluir }) {
   if (tarefas.length === 0) {
     return (
-      <p style={{ textAlign: 'center', color: '#6b7280', padding: '32px 0' }}>
+      <p className="estado-centralizado">
         Nenhuma tarefa raiz encontrada. Crie tarefas e organize-as em hierarquias.
       </p>
     );
@@ -11,7 +12,7 @@ export function Arvore({ tarefas, todasTarefas, aoEditar, aoExcluir }) {
 
   return (
     <div>
-      <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 16 }}>
+      <p className="arvore__descricao">
         Mostrando {tarefas.length} tarefa(s) raiz. Clique em ▶ para expandir subtarefas.
       </p>
       {tarefas.map((tarefa) => (

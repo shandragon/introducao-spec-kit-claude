@@ -1,21 +1,16 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: [template] → 1.0.0
+Version change: 1.0.0 → 1.1.0
+Bump type: MINOR — novo princípio adicionado (VI. Consistência Visual e Estilo)
 Added principles:
-  - I. Código Limpo (Clean Code)
-  - II. TDD — Desenvolvimento Orientado a Testes (NON-NEGOTIABLE)
-  - III. Design Centrado no Usuário
-  - IV. Versionamento com Git Flow
-  - V. Commits Semânticos
-Added sections:
-  - Idioma e Documentação
-  - Fluxo de Desenvolvimento
-  - Governance
+  - VI. Consistência Visual e Estilo (novo)
+Modified principles: nenhum
+Removed principles: nenhum
 Templates status:
-  - .specify/templates/plan-template.md  ✅ alinhado (Constitution Check já presente)
-  - .specify/templates/spec-template.md  ✅ alinhado (user stories + cenários de aceite)
-  - .specify/templates/tasks-template.md ✅ alinhado (TDD: testes antes da implementação)
+  - .specify/templates/plan-template.md  ✅ alinhado (Constitution Check é dinâmico)
+  - .specify/templates/spec-template.md  ✅ alinhado (sem impacto estrutural)
+  - .specify/templates/tasks-template.md ✅ alinhado (sem impacto estrutural)
   - README.md                            ⚠ pendente (não existe; criar quando relevante)
 Follow-up TODOs:
   - Nenhum placeholder deferido.
@@ -123,6 +118,19 @@ Regras:
 
 **Rationale**: Commits semânticos habilitam geração automática de changelogs e comunicam intenção de forma padronizada.
 
+### VI. Consistência Visual e Estilo
+
+A interface DEVE manter coesão visual em todos os seus elementos. As seguintes regras são inegociáveis:
+
+- Elementos gráficos (botões, formulários, inputs, tipografia, espaçamentos, cores) DEVEM seguir um padrão único e consistente em toda a aplicação.
+- Estilos DEVEM ser definidos em arquivos `.css` dedicados, promovendo reutilização e separação de responsabilidades.
+- O uso de estilo inline (`style="..."` em HTML/JSX ou equivalentes em outras tecnologias) é PROIBIDO — exceções só são permitidas quando o valor é calculado dinamicamente em tempo de execução e não pode ser antecipado em CSS estático.
+- O uso da diretiva `!important` em CSS é PROIBIDO — conflitos de especificidade DEVEM ser resolvidos refatorando a hierarquia de seletores.
+- Variáveis CSS (custom properties) DEVEM ser usadas para valores reutilizáveis como cores, tipografia e espaçamentos.
+- Toda adição ou alteração de estilo DEVE avaliar se um componente ou classe CSS existente pode ser reutilizado antes de criar um novo.
+
+**Rationale**: Consistência visual reduz a carga cognitiva do usuário, facilita manutenção do código de estilo e evita a proliferação de regras conflitantes que degradam a qualidade da UI ao longo do tempo.
+
 ## Idioma e Documentação
 
 O Português Brasileiro é o idioma oficial do projeto. Esta regra é inegociável:
@@ -169,4 +177,4 @@ Esta constituição é o documento de maior autoridade do projeto. Toda prática
 - Violações DEVEM ser registradas com justificativa no campo "Complexity Tracking" do plano.
 - Complexidade extra DEVE sempre ser justificada — simplicidade é o padrão.
 
-**Version**: 1.0.0 | **Ratified**: 2026-05-16 | **Last Amended**: 2026-05-16
+**Version**: 1.1.0 | **Ratified**: 2026-05-16 | **Last Amended**: 2026-05-16
