@@ -1,0 +1,35 @@
+.calendario-container {
+  height: 600px;
+}
+
+.evento-calendario {
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: var(--fonte-pequena);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #111;
+}
+
+.evento-calendario--PENDENTE {
+  background: var(--cor-pendente-cal);
+}
+
+.evento-calendario--EM_PLANEJAMENTO {
+  background: var(--cor-planejamento-cal);
+}
+
+.evento-calendario--EM_EXECUCAO {
+  background: var(--cor-execucao-cal);
+}
+
+.evento-calendario--CONCLUIDA {
+  background: var(--cor-concluida-cal);
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.evento-calendario__horario {
+  margin-right: 4px;
+}

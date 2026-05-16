@@ -1,0 +1,77 @@
+/* ─── Barra de navegação (abas + nova tarefa) ───────────── */
+
+.pagina-principal__navegacao {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.aba {
+  padding: 9px 18px;
+  background: var(--cor-fundo);
+  color: var(--cor-texto-medio);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pequeno);
+  cursor: pointer;
+  font-size: var(--fonte-base);
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.aba:hover:not(.aba--ativa) {
+  background: var(--cor-fundo-inativo);
+  border-color: var(--cor-borda-input);
+}
+
+.aba--ativa {
+  background: var(--cor-primaria);
+  color: var(--cor-primaria-texto);
+  border-color: var(--cor-primaria);
+  font-weight: 600;
+}
+
+.aba--ativa:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.pagina-principal__botao-nova-tarefa {
+  margin-left: auto;
+}
+
+/* ─── Painel do formulário ──────────────────────────────── */
+
+.pagina-principal__formulario {
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.pagina-principal__formulario-titulo {
+  margin: 0 0 20px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ─── Painel de confirmação de exclusão ─────────────────── */
+
+.pagina-principal__confirmacao-exclusao {
+  background: var(--cor-perigo-fundo);
+  border: 1px solid var(--cor-perigo-borda);
+  border-radius: var(--raio-medio);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.pagina-principal__confirmacao-exclusao p {
+  margin: 0 0 16px;
+}
+
+.pagina-principal__confirmacao-acoes {
+  display: flex;
+  gap: 8px;
+}

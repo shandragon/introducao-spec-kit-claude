@@ -1,0 +1,26 @@
+.formulario-tarefa {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.formulario-tarefa__linha {
+  display: flex;
+  gap: 12px;
+}
+
+.formulario-tarefa__linha > div {
+  flex: 1;
+}
+
+.formulario-tarefa__horario-fim {
+  margin: 0;
+  font-size: var(--fonte-auxiliar);
+  color: var(--cor-texto-secundario);
+}
+
+.formulario-tarefa__acoes {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
