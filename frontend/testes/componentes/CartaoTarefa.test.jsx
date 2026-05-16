@@ -33,4 +33,16 @@ describe('CartaoTarefa', () => {
     render(<CartaoTarefa tarefa={concluida} aoEditar={() => {}} aoExcluir={() => {}} />);
     expect(screen.getByText('Concluída')).toBeInTheDocument();
   });
+
+  it('deve exibir horário de início quando presente', () => {
+    const comHorario = { ...tarefaBase, horarioInicio: '14:30', duracaoFormatada: '1h' };
+    render(<CartaoTarefa tarefa={comHorario} aoEditar={() => {}} aoExcluir={() => {}} />);
+    expect(screen.getByText(/14:30/)).toBeInTheDocument();
+    expect(screen.getByText(/1h/)).toBeInTheDocument();
+  });
+
+  it('não deve exibir linha de horário quando ausente', () => {
+    render(<CartaoTarefa tarefa={tarefaBase} aoEditar={() => {}} aoExcluir={() => {}} />);
+    expect(screen.queryByText(/:/)).not.toBeInTheDocument();
+  });
 });

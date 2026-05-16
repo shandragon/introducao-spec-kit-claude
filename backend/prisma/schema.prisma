@@ -28,14 +28,16 @@ enum StatusTarefa {
 }
 
 model Tarefa {
-  id           String       @id @default(cuid())
-  titulo       String
-  data         DateTime?
-  status       StatusTarefa @default(PENDENTE)
-  usuarioId    String       @map("usuario_id")
-  paiId        String?      @map("pai_id")
-  criadoEm    DateTime     @default(now()) @map("criado_em")
-  atualizadoEm DateTime     @updatedAt @map("atualizado_em")
+  id            String       @id @default(cuid())
+  titulo        String
+  data          DateTime?
+  horarioInicio String?      @map("horario_inicio")
+  duracao       Int?
+  status        StatusTarefa @default(PENDENTE)
+  usuarioId     String       @map("usuario_id")
+  paiId         String?      @map("pai_id")
+  criadoEm     DateTime     @default(now()) @map("criado_em")
+  atualizadoEm  DateTime     @updatedAt @map("atualizado_em")
 
   usuario  Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   pai      Tarefa?  @relation("TarefaHierarquia", fields: [paiId], references: [id])

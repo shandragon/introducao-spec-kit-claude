@@ -85,3 +85,33 @@ describe('tarefasServico', () => {
     });
   });
 });
+
+import { calcularHorarioFim, formatarDuracao } from '../../src/servicos/tarefasServico.js';
+
+describe('calcularHorarioFim', () => {
+  it('deve calcular horário de término corretamente', () => {
+    expect(calcularHorarioFim('09:30', 90)).toBe('11:00');
+    expect(calcularHorarioFim('23:00', 90)).toBe('24:30');
+    expect(calcularHorarioFim('08:00', 30)).toBe('08:30');
+  });
+
+  it('deve retornar null se horarioInicio ou duracao ausentes', () => {
+    expect(calcularHorarioFim(null, 90)).toBeNull();
+    expect(calcularHorarioFim('09:00', null)).toBeNull();
+    expect(calcularHorarioFim(null, null)).toBeNull();
+  });
+});
+
+describe('formatarDuracao', () => {
+  it('deve formatar minutos como texto legível', () => {
+    expect(formatarDuracao(90)).toBe('1h 30min');
+    expect(formatarDuracao(60)).toBe('1h');
+    expect(formatarDuracao(45)).toBe('45min');
+    expect(formatarDuracao(120)).toBe('2h');
+  });
+
+  it('deve retornar null para duração ausente', () => {
+    expect(formatarDuracao(null)).toBeNull();
+    expect(formatarDuracao(undefined)).toBeNull();
+  });
+});

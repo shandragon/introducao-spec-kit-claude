@@ -36,4 +36,33 @@ describe('FormularioTarefa', () => {
     render(<FormularioTarefa tarefaInicial={tarefa} aoSalvar={() => {}} aoCancelar={() => {}} />);
     expect(screen.getByDisplayValue('Existente')).toBeInTheDocument();
   });
+
+  it('deve renderizar campos de horário de início e duração', () => {
+    render(<FormularioTarefa aoSalvar={() => {}} aoCancelar={() => {}} />);
+    expect(screen.getByLabelText(/horário de início/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/duração/i)).toBeInTheDocument();
+  });
+
+  it('deve exibir horário de término calculado ao informar início e duração', () => {
+    render(<FormularioTarefa aoSalvar={() => {}} aoCancelar={() => {}} />);
+    fireEvent.change(screen.getByLabelText(/horário de início/i), { target: { value: '09:30' } });
+    fireEvent.change(screen.getByLabelText(/duração/i), { target: { value: '90' } });
+    expect(screen.getByText(/11:00/)).toBeInTheDocument();
+  });
+
+  it('deve incluir horarioInicio e duracao ao salvar', async () => {
+    const aoSalvar = vi.fn().mockResolvedValue();
+    render(<FormularioTarefa aoSalvar={aoSalvar} aoCancelar={() => {}} />);
+
+    fireEvent.change(screen.getByLabelText(/título/i), { target: { value: 'Com Horário' } });
+    fireEvent.change(screen.getByLabelText(/horário de início/i), { target: { value: '14:00' } });
+    fireEvent.change(screen.getByLabelText(/duração/i), { target: { value: '45' } });
+    fireEvent.click(screen.getByRole('button', { name: /salvar/i }));
+
+    await waitFor(() =>
+      expect(aoSalvar).toHaveBeenCalledWith(
+        expect.objectContaining({ horarioInicio: '14:00', duracao: 45 })
+      )
+    );
+  });
 });

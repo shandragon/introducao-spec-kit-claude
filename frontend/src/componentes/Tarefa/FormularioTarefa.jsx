@@ -7,6 +7,15 @@ const STATUS_OPCOES = [
   { valor: 'CONCLUIDA', rotulo: 'Concluída' },
 ];
 
+function calcularHorarioFimLocal(horarioInicio, duracao) {
+  if (!horarioInicio || !duracao) return null;
+  const [h, m] = horarioInicio.split(':').map(Number);
+  const total = h * 60 + m + Number(duracao);
+  const hf = Math.floor(total / 60);
+  const mf = total % 60;
+  return `${String(hf).padStart(2, '0')}:${String(mf).padStart(2, '0')}`;
+}
+
 export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasDisponiveis = [] }) {
   const [titulo, setTitulo] = useState(tarefaInicial?.titulo || '');
   const [data, setData] = useState(
@@ -14,8 +23,12 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
   );
   const [status, setStatus] = useState(tarefaInicial?.status || 'PENDENTE');
   const [paiId, setPaiId] = useState(tarefaInicial?.paiId || '');
+  const [horarioInicio, setHorarioInicio] = useState(tarefaInicial?.horarioInicio || '');
+  const [duracao, setDuracao] = useState(tarefaInicial?.duracao ? String(tarefaInicial.duracao) : '');
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState('');
+
+  const horarioFim = calcularHorarioFimLocal(horarioInicio, duracao);
 
   useEffect(() => {
     if (tarefaInicial) {
@@ -23,6 +36,8 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
       setData(tarefaInicial.data ? new Date(tarefaInicial.data).toISOString().slice(0, 10) : '');
       setStatus(tarefaInicial.status || 'PENDENTE');
       setPaiId(tarefaInicial.paiId || '');
+      setHorarioInicio(tarefaInicial.horarioInicio || '');
+      setDuracao(tarefaInicial.duracao ? String(tarefaInicial.duracao) : '');
     }
   }, [tarefaInicial]);
 
@@ -35,7 +50,14 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
     setEnviando(true);
     setErro('');
     try {
-      await aoSalvar({ titulo: titulo.trim(), data: data || null, status, paiId: paiId || null });
+      await aoSalvar({
+        titulo: titulo.trim(),
+        data: data || null,
+        status,
+        paiId: paiId || null,
+        horarioInicio: horarioInicio || null,
+        duracao: duracao ? Number(duracao) : null,
+      });
     } catch (ex) {
       setErro(ex.response?.data?.erro || 'Erro ao salvar tarefa.');
     } finally {
@@ -97,6 +119,41 @@ export function FormularioTarefa({ tarefaInicial, aoSalvar, aoCancelar, tarefasD
           ))}
         </select>
       </div>
+
+      <div style={{ display: 'flex', gap: 12 }}>
+        <div style={{ flex: 1 }}>
+          <label htmlFor="horarioInicio" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
+            Horário de início
+          </label>
+          <input
+            id="horarioInicio"
+            type="time"
+            value={horarioInicio}
+            onChange={(e) => setHorarioInicio(e.target.value)}
+            style={estiloInput}
+          />
+        </div>
+        <div style={{ flex: 1 }}>
+          <label htmlFor="duracao" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
+            Duração (min)
+          </label>
+          <input
+            id="duracao"
+            type="number"
+            min="1"
+            value={duracao}
+            onChange={(e) => setDuracao(e.target.value)}
+            placeholder="Ex.: 90"
+            style={estiloInput}
+          />
+        </div>
+      </div>
+
+      {horarioFim && (
+        <p style={{ margin: 0, fontSize: 13, color: '#6b7280' }}>
+          Término: <strong>{horarioFim}</strong>
+        </p>
+      )}
 
       {tarefasDisponiveis.length > 0 && (
         <div>

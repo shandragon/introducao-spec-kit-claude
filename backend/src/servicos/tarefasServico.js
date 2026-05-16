@@ -3,11 +3,40 @@ import prisma from '../lib/prisma.js';
 import { criarErro } from '../middleware/tratarErros.js';
 
 const ORDEM_STATUS = ['PENDENTE', 'EM_PLANEJAMENTO', 'EM_EXECUCAO', 'CONCLUIDA'];
+const REGEX_HORARIO = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+export function calcularHorarioFim(horarioInicio, duracao) {
+  if (!horarioInicio || !duracao) return null;
+  const [horas, minutos] = horarioInicio.split(':').map(Number);
+  const totalMinutos = horas * 60 + minutos + duracao;
+  const horaFim = Math.floor(totalMinutos / 60);
+  const minutoFim = totalMinutos % 60;
+  return `${String(horaFim).padStart(2, '0')}:${String(minutoFim).padStart(2, '0')}`;
+}
+
+export function formatarDuracao(minutos) {
+  if (!minutos) return null;
+  const horas = Math.floor(minutos / 60);
+  const mins = minutos % 60;
+  if (horas === 0) return `${mins}min`;
+  if (mins === 0) return `${horas}h`;
+  return `${horas}h ${mins}min`;
+}
+
+function enriquecerTarefa(tarefa) {
+  return {
+    ...tarefa,
+    horarioFim: calcularHorarioFim(tarefa.horarioInicio, tarefa.duracao),
+    duracaoFormatada: formatarDuracao(tarefa.duracao),
+  };
+}
 
 const esquemaTarefa = z.object({
   titulo: z.string().min(1, 'Título é obrigatório'),
   data: z.string().datetime({ offset: true }).optional().nullable()
     .or(z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().nullable()),
+  horarioInicio: z.string().regex(REGEX_HORARIO, 'Horário deve estar no formato HH:MM').optional().nullable(),
+  duracao: z.number().int().min(1, 'Duração mínima é 1 minuto').optional().nullable(),
   status: z.enum(['PENDENTE', 'EM_PLANEJAMENTO', 'EM_EXECUCAO', 'CONCLUIDA']).optional(),
   paiId: z.string().optional().nullable(),
 });
@@ -42,8 +71,19 @@ async function verificarReferenciaCircular(id, novoPaiId, usuarioId) {
   }
 }
 
+function validarHorarioComData(horarioInicio, data) {
+  if (horarioInicio && !data) {
+    throw criarErro(
+      'Horário de início requer que uma data esteja definida na tarefa.',
+      400,
+      'HORARIO_SEM_DATA'
+    );
+  }
+}
+
 export async function criar(dados, usuarioId) {
   const validado = esquemaTarefa.parse({ titulo: dados.titulo, ...dados });
+  validarHorarioComData(validado.horarioInicio, validado.data);
 
   if (validado.paiId) {
     await verificarPropriedade(validado.paiId, usuarioId);
@@ -53,6 +93,8 @@ export async function criar(dados, usuarioId) {
     data: {
       titulo: validado.titulo,
       data: validado.data ? new Date(validado.data) : null,
+      horarioInicio: validado.horarioInicio || null,
+      duracao: validado.duracao || null,
       status: validado.status || 'PENDENTE',
       usuarioId,
       paiId: validado.paiId || null,
@@ -60,7 +102,7 @@ export async function criar(dados, usuarioId) {
     include: { filhas: { select: { id: true, titulo: true, status: true } } },
   });
 
-  return tarefa;
+  return enriquecerTarefa(tarefa);
 }
 
 export async function listar(filtros, usuarioId) {
@@ -99,7 +141,7 @@ export async function listar(filtros, usuarioId) {
   });
 
   return ordenadas.map((t) => ({
-    ...t,
+    ...enriquecerTarefa(t),
     quantidadeFilhas: t.filhas.length,
     progressoFilhas: {
       total: t.filhas.length,
@@ -122,7 +164,7 @@ export async function buscarPorId(id, usuarioId) {
   }
 
   return {
-    ...tarefa,
+    ...enriquecerTarefa(tarefa),
     progressoFilhas: {
       total: tarefa.filhas.length,
       concluidas: tarefa.filhas.filter((f) => f.status === 'CONCLUIDA').length,
@@ -142,9 +184,17 @@ export async function atualizar(id, dados, usuarioId) {
 
   const campos = {};
   if (dados.titulo !== undefined) campos.titulo = dados.titulo;
-  if (dados.data !== undefined) campos.data = dados.data ? new Date(dados.data) : null;
+  if (dados.data !== undefined) {
+    campos.data = dados.data ? new Date(dados.data) : null;
+    if (!campos.data) campos.horarioInicio = null;
+  }
+  if (dados.horarioInicio !== undefined) campos.horarioInicio = dados.horarioInicio || null;
+  if (dados.duracao !== undefined) campos.duracao = dados.duracao || null;
   if (dados.status !== undefined) campos.status = dados.status;
   if (dados.paiId !== undefined) campos.paiId = dados.paiId || null;
+
+  const dataFinal = campos.data !== undefined ? campos.data : (await verificarPropriedade(id, usuarioId)).data ?? null;
+  validarHorarioComData(campos.horarioInicio, dataFinal);
 
   const tarefa = await prisma.tarefa.update({
     where: { id },
@@ -155,7 +205,7 @@ export async function atualizar(id, dados, usuarioId) {
     },
   });
 
-  return tarefa;
+  return enriquecerTarefa(tarefa);
 }
 
 export async function atualizarData(id, data, usuarioId) {

@@ -141,3 +141,62 @@ describe('PATCH /api/tarefas/:id/data', () => {
     expect(resposta.body.dados.tarefa.data).toContain('2026-06-01');
   });
 });
+
+describe('POST /api/tarefas — horário e duração', () => {
+  it('deve criar tarefa com horarioInicio e duracao retornando horarioFim e duracaoFormatada', async () => {
+    const token = await obterToken();
+    const resposta = await request(aplicacao)
+      .post('/api/tarefas')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ titulo: 'Com horário', data: '2026-06-01', horarioInicio: '09:30', duracao: 90 });
+
+    expect(resposta.status).toBe(201);
+    expect(resposta.body.dados.tarefa.horarioInicio).toBe('09:30');
+    expect(resposta.body.dados.tarefa.duracao).toBe(90);
+    expect(resposta.body.dados.tarefa.horarioFim).toBe('11:00');
+    expect(resposta.body.dados.tarefa.duracaoFormatada).toBe('1h 30min');
+  });
+
+  it('deve rejeitar horarioInicio sem data com 400', async () => {
+    const token = await obterToken();
+    const resposta = await request(aplicacao)
+      .post('/api/tarefas')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ titulo: 'Sem data', horarioInicio: '09:00' });
+
+    expect(resposta.status).toBe(400);
+  });
+
+  it('deve rejeitar duracao igual a zero com 400', async () => {
+    const token = await obterToken();
+    const resposta = await request(aplicacao)
+      .post('/api/tarefas')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ titulo: 'Duração zero', data: '2026-06-01', duracao: 0 });
+
+    expect(resposta.status).toBe(400);
+  });
+
+  it('deve rejeitar horarioInicio em formato inválido com 400', async () => {
+    const token = await obterToken();
+    const resposta = await request(aplicacao)
+      .post('/api/tarefas')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ titulo: 'Formato ruim', data: '2026-06-01', horarioInicio: '9h30' });
+
+    expect(resposta.status).toBe(400);
+  });
+
+  it('deve aceitar tarefa sem horarioInicio e sem duracao', async () => {
+    const token = await obterToken();
+    const resposta = await request(aplicacao)
+      .post('/api/tarefas')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ titulo: 'Sem horário' });
+
+    expect(resposta.status).toBe(201);
+    expect(resposta.body.dados.tarefa.horarioInicio).toBeNull();
+    expect(resposta.body.dados.tarefa.duracao).toBeNull();
+    expect(resposta.body.dados.tarefa.horarioFim).toBeNull();
+  });
+});

@@ -17,11 +17,22 @@ const CORES_STATUS = {
 };
 
 function tarefaParaEvento(tarefa) {
+  const base = tarefa.data ? new Date(tarefa.data) : new Date();
+
+  if (tarefa.horarioInicio) {
+    const [h, m] = tarefa.horarioInicio.split(':').map(Number);
+    base.setHours(h, m, 0, 0);
+    const fim = new Date(base);
+    fim.setMinutes(fim.getMinutes() + (tarefa.duracao || 60));
+    return { id: tarefa.id, title: tarefa.titulo, start: base, end: fim, resource: tarefa };
+  }
+
   return {
     id: tarefa.id,
     title: tarefa.titulo,
-    start: tarefa.data ? new Date(tarefa.data) : new Date(),
-    end: tarefa.data ? new Date(tarefa.data) : new Date(),
+    start: base,
+    end: base,
+    allDay: true,
     resource: tarefa,
   };
 }
@@ -45,6 +56,7 @@ function EstiloEvento({ event }) {
       }}
       title={tarefa.titulo}
     >
+      {tarefa.horarioInicio && <span style={{ marginRight: 4 }}>{tarefa.horarioInicio}</span>}
       {tarefa.titulo}
     </div>
   );
@@ -87,7 +99,7 @@ export function Calendario({ tarefas, aoMoverTarefa, aoCriarNaData, aoEditar }) 
         date={dataAtual}
         onNavigate={setDataAtual}
         defaultView="month"
-        views={['month']}
+        views={['month', 'week', 'day']}
         onEventDrop={aoSoltar}
         onSelectSlot={aoClicarSlot}
         onSelectEvent={aoClicarEvento}
@@ -99,7 +111,10 @@ export function Calendario({ tarefas, aoMoverTarefa, aoCriarNaData, aoEditar }) 
           previous: 'Anterior',
           next: 'Próximo',
           month: 'Mês',
+          week: 'Semana',
+          day: 'Dia',
           noEventsInRange: 'Nenhuma tarefa neste período.',
+          allDay: 'Sem horário',
         }}
       />
     </div>
