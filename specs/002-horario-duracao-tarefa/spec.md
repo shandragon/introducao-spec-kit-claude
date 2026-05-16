@@ -2,7 +2,7 @@
 
 **Branch da Feature**: `002-horario-duracao-tarefa`
 **Criado em**: 2026-05-16
-**Status**: Rascunho
+**Status**: Implementado
 **Entrada**: Descrição do usuário: "Como usuário do sistema, eu quero adicionar o horario de inicio e a duração da tarefa para obter uma melhor melhor organização das tarefas."
 
 ---
